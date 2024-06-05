@@ -1,4 +1,4 @@
-import TryCatch from "../middleware/TryCatch";
+import TryCatch from "../middleware/TryCatch.js";
 import { Courses } from "../models/coursesModel.js";
 import { Lecture } from "../models/lectureModel.js";
 

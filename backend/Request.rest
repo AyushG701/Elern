@@ -1,0 +1,27 @@
+
+
+# #eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJSYW1lc2giLCJlbWFpbCI6Imxpa2VqZTUwNjRAamFkc3lzLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEJHTVU0V0Jib2NJUUJsbkpsVVBncy4uTjBSa0ZEOEhiNXhTR3psdHZ6S04uWWJiTzk5VzdTIn0sIm90cCI6ODc0MjIsImlhdCI6MTcxNzgxMTIzMiwiZXhwIjoxNzE3ODE0ODMyfQ.7FP6VROI33jq4Q6Y-XTlw6ag0sqcnC4jN-Z1FRaqAl4
+# POST http://localhost:5000/api/user/register
+# Content-Type: application/json
+
+# {
+#     "name":"Ramesh",
+#     "email":"soholol731@jadsys.com",
+#     "password":"ramesh@12"
+# }
+
+# 87422
+# POST http://localhost:5000/api/user/verify
+# Content-Type: application/json
+
+# {
+#     "otp":"99130",
+#     "activationToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUmFtZXNoIiwiZW1haWwiOiJzb2hvbG9sNzMxQGphZHN5cy5jb20iLCJvdHAiOiI5OTEzMCIsImlhdCI6MTcxNzgyMDUwNiwiZXhwIjoxNzE3ODI0MTA2fQ.KHM6WrIxJunuvCqfISuGGltmQmbc--w-DkG8T9VCSbU"
+# }
+
+# POST http://localhost:5000/api/user/resendOtp
+# Content-Type: application/json
+
+# {
+#     "email":"soholol731@jadsys.com"
+# }

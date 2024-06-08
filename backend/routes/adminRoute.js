@@ -1,8 +1,11 @@
 import express from "express";
-import { Auth, isAdmin } from "../middleware/auth";
-import { addLectures, createCourse } from "../controllers/adminController";
-import { uploadFiles } from "../middleware/multer";
-import { deleteCourse, deleteLecture } from "../controllers/courseController";
+import { Auth, isAdmin } from "../middleware/auth.js";
+import { addLectures, createCourse } from "../controllers/adminController.js";
+import { uploadFiles } from "../middleware/multer.js";
+import {
+  deleteCourse,
+  deleteLecture,
+} from "../controllers/courseController.js";
 
 const router = express.Router();
 

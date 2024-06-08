@@ -19,12 +19,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    subscription: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subscription",
-      },
-    ],
+    subscription: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Courses",
+    },
+
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

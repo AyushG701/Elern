@@ -58,11 +58,12 @@ const sendMail = async (email, subject, data) => {
 </body>
 </html>
 `;
+
   await transport.sendMail({
-    from: process.env.Gmail,
+    from: process.env.EMAIL_ADDRESS,
     to: email,
     subject,
-    html: data,
+    html,
   });
 };
 

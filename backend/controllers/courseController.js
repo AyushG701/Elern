@@ -1,5 +1,5 @@
 import TryCatch from "../middleware/TryCatch.js";
-import { Courses } from "../models/coursesModel";
+import { Courses } from "../models/coursesModel.js";
 import { Lecture } from "../models/lectureModel.js";
 import { User } from "../models/userModel.js";
 import { rm } from "fs";

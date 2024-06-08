@@ -4,8 +4,8 @@ import {
   fetchLectures,
   getAllCourse,
   getSingleCourse,
-} from "../controllers/courseController";
-import { Auth } from "../middleware/auth";
+} from "../controllers/courseController.js";
+import { Auth } from "../middleware/auth.js";
 
 const router = express.Router();
 

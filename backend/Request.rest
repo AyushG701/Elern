@@ -25,3 +25,19 @@
 # {
 #     "email":"soholol731@jadsys.com"
 # }
+
+
+# POST http://localhost:5000/api/user/login
+# Content-Type: application/json
+
+# {
+#     "email":"soholol731@jadsys.com",
+#     "password":"ramesh@12"
+# }
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjYzZGM4M2M4NTkxNmNjZTBmZGFmMGYiLCJpYXQiOjE3MTc4MjU5NzIsImV4cCI6MTcxNzk5ODc3Mn0.uVsf6N_feSauZuU4PvEtGgHWNXiz65db8M1ZhsSAjgU
+
+GET http://localhost:5000/api/stats
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjYzZGM4M2M4NTkxNmNjZTBmZGFmMGYiLCJpYXQiOjE3MTc4MjU5NzIsImV4cCI6MTcxNzk5ODc3Mn0.uVsf6N_feSauZuU4PvEtGgHWNXiz65db8M1ZhsSAjgU
+

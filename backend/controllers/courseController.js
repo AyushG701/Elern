@@ -61,39 +61,3 @@ export const fetchLecture = TryCatch(async (req, res) => {
   }
   res.json({ lecture });
 });
-
-export const deleteLecture = TryCatch(async (req, res) => {
-  const lecture = await Lecture.findById(req.params.id);
-  rm(lecture.video, () => {
-    console.log("video deleted");
-  });
-
-  await lecture.deleteOne();
-  res.json({ message: "lecture deleted" });
-});
-
-const unlinkAsync = promisify(fs.unlink);
-
-export const deleteCourse = TryCatch(async (req, res) => {
-  const course = await Courses.findById(req.params.id);
-  const lectures = await Lecture.findById({ course: course._id });
-  // deleting all the lectures
-  await Promise.all(
-    lectures.map(async (lecture) => {
-      //deleting lecture from the database
-      await unlinkAsync(lecture.video);
-      console.log("video deleted");
-    }),
-  );
-  //deleting the course thumnail
-  rm(course.image, () => {
-    console.log("image deleted");
-  });
-  //course deleteed
-  await Lecture.find({ course: req.params.id }).deleteMany();
-  await course.deleteOne();
-  //   then removing the ocurse from subscription module of user
-  await User.updateMany({}, { $pull: { subscription: req.params.id } });
-
-  res.json({ message: "lecture deleted" });
-});

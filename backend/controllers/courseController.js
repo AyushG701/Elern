@@ -5,6 +5,10 @@ import { User } from "../models/userModel.js";
 import { rm } from "fs";
 import { promisify } from "util";
 import fs from "fs";
+// for payment
+import crypto from "crypto";
+import { EsewaPayment } from "../models/paymentModel.js";
+import fetch from "node-fetch";
 
 export const getAllCourse = TryCatch(async (req, res) => {
   const courses = await Courses.find();
@@ -60,4 +64,120 @@ export const fetchLecture = TryCatch(async (req, res) => {
     });
   }
   res.json({ lecture });
+});
+
+export const getMyCourses = TryCatch(async (req, res) => {
+  const courses = await Courses.find({ _id: req.user.subscription });
+
+  res.json({
+    courses,
+  });
+});
+
+// for payment
+export const esewaCheckout = TryCatch(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const course = await Courses.findById(req.params.id);
+
+  if (user.subscription.includes(course._id)) {
+    return res.status(400).json({
+      message: "You already have this course",
+    });
+  }
+
+  const amount = Number(course.price);
+  const transaction_uuid = crypto.randomUUID(); // Generate a unique ID
+
+  const paymentData = {
+    total_amount: amount,
+    transaction_uuid,
+    product_code: "EPAYTEST", // Use your actual product code
+    success_url: "https://yourdomain.com/payment-success", // Change to your success URL
+    failure_url: "https://yourdomain.com/payment-failure", // Change to your failure URL
+    signed_field_names: "total_amount,transaction_uuid,product_code",
+  };
+
+  const secretKey = process.env.ESEWA_SECRET_KEY; // Define your eSewa secret key in .env file
+  const signatureString = `total_amount=${amount},transaction_uuid=${transaction_uuid},product_code=${paymentData.product_code}`;
+  const signature = crypto
+    .createHmac("sha256", secretKey)
+    .update(signatureString)
+    .digest("base64");
+
+  const newPayment = new EsewaPayment({
+    esewa_order_id: transaction_uuid,
+    esewa_payment_id: null, // Will be updated after payment
+    esewa_signature: signature,
+    amount: amount,
+    transaction_uuid: transaction_uuid,
+    status: "PENDING",
+  });
+
+  await newPayment.save();
+
+  res.status(201).json({
+    paymentData,
+    signature,
+    payment_url: "https://rc-epay.esewa.com.np/api/epay/main/v2/form", // Use the test URL for UAT
+  });
+});
+
+export const esewaPaymentVerification = TryCatch(async (req, res) => {
+  const { transaction_uuid, total_amount, esewa_signature } = req.body;
+
+  const payment = await EsewaPayment.findOne({ transaction_uuid });
+
+  if (!payment) {
+    return res.status(404).json({ error: "Payment not found" });
+  }
+
+  const body = `total_amount=${total_amount},transaction_uuid=${transaction_uuid},product_code=${payment.product_code}`;
+  const secretKey = process.env.ESEWA_SECRET_KEY;
+
+  const expectedSignature = crypto
+    .createHmac("sha256", secretKey)
+    .update(body)
+    .digest("base64");
+
+  if (expectedSignature !== esewa_signature) {
+    payment.status = "FAILED";
+    await payment.save();
+    return res.status(400).json({ error: "Payment signature mismatch" });
+  }
+
+  payment.status = "COMPLETE";
+  payment.esewa_payment_id = req.body.transaction_code; // Use actual payment ID
+  await payment.save();
+
+  const user = await User.findById(req.user._id);
+  const course = await Courses.findById(req.params.id);
+
+  user.subscription.push(course._id);
+  await user.save();
+
+  res.status(200).json({
+    message: "Course Purchased Successfully",
+    payment,
+  });
+});
+
+export const esewaCheckPaymentStatus = TryCatch(async (req, res) => {
+  const { transaction_uuid } = req.params;
+
+  const payment = await EsewaPayment.findOne({ transaction_uuid });
+
+  if (!payment) {
+    return res.status(404).json({ error: "Payment not found" });
+  }
+
+  const response = await fetch(
+    `https://uat.esewa.com.np/api/epay/transaction/status/?product_code=${payment.product_code}&total_amount=${payment.total_amount}&transaction_uuid=${transaction_uuid}`,
+  );
+
+  const statusData = await response.json();
+
+  payment.status = statusData.status;
+  await payment.save();
+
+  res.json({ status: payment.status, payment });
 });

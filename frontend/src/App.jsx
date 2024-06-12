@@ -6,6 +6,8 @@ import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
 import Verify from "./pages/auth/Verify.jsx";
 import Footer from "./pages/footer/Footer.jsx";
+import Account from "./pages/account/Account.jsx";
+import About from "./pages/about/About.jsx";
 
 const App = () => {
   return (
@@ -15,6 +17,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/account" element={<Account />} />
+
           <Route path="/register" element={<Register />} />
           <Route path="/verify" element={<Verify />} />
         </Routes>

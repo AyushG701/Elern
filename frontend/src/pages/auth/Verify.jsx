@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserData } from "../../context/UserContext";
 
 const Verify = () => {
   const [otp, setOtp] = useState("");
-  //   const { btnLoading, verifyOtp } = UserData();
+  const { btnLoading, verifyOtp } = UserData();
   const navigate = useNavigate();
-  const [btnLoading, setBtnLoading] = useState("");
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    // await verifyOtp(Number(otp), navigate);
+    await verifyOtp(Number(otp), navigate);
   };
 
   return (
@@ -45,7 +46,7 @@ const Verify = () => {
                 <div className="flex  justify-end">
                   <button
                     type="submit"
-                    //   disabled={btnLoading}
+                    disabled={btnLoading}
                     className={` bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white transition duration-300 
                      ${
                        btnLoading
@@ -56,7 +57,7 @@ const Verify = () => {
                     // Set a minimum width for better sizing
                   >
                     Send
-                    {/* {btnLoading ? "Please Wait..." : "Verify"} */}
+                    {btnLoading ? "Please Wait..." : "Verify"}
                   </button>
                 </div>
               </form>

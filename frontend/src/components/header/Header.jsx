@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ Auth }) => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
 
@@ -15,15 +15,18 @@ const Header = () => {
   const navItems = [
     { id: 1, text: "Home", path: "/" },
     { id: 2, text: "Company", path: "/company" },
-    { id: 3, text: "Resources", path: "/account" },
-    { id: 4, text: "About", path: "/about" },
-    { id: 5, text: "Login", path: "/login" },
+    { id: 3, text: "About", path: "/about" },
+    Auth
+      ? { id: 4, text: "Account", path: "/account" }
+      : { id: 4, text: "Login", path: "/login" },
   ];
 
   return (
     <div className="bg-black flex justify-between items-center h-16  mx-auto px-6 text-white">
       {/* Logo */}
-      <h1 className="w-full text-3xl font-bold text-[#00df9a]">Elern.</h1>
+      <Link to={"/"}>
+        <h1 className="w-full text-3xl font-bold text-[#00df9a]">Elern.</h1>
+      </Link>
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex">

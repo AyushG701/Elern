@@ -8,23 +8,35 @@ import Verify from "./pages/auth/Verify.jsx";
 import Footer from "./pages/footer/Footer.jsx";
 import Account from "./pages/account/Account.jsx";
 import About from "./pages/about/About.jsx";
+import { UserData } from "./context/UserContext.jsx";
+import Loading from "./components/loading/Loading.jsx";
 
 const App = () => {
+  const { Auth, user, loading } = UserData();
+  console.log(Auth);
+
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/account" element={<Account />} />
+      {loading ? (
+        <Loading />
+      ) : (
+        <BrowserRouter>
+          <Header Auth={Auth} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/account"
+              element={Auth ? <Account user={user} /> : <Login />}
+            />
+            <Route path="/login" element={!Auth ? <Login /> : <Home />} />
 
-          <Route path="/register" element={<Register />} />
-          <Route path="/verify" element={<Verify />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+            <Route path="/register" element={!Auth ? <Register /> : <Home />} />
+            <Route path="/verify" element={!Auth ? <Verify /> : <Home />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      )}
     </>
   );
 };

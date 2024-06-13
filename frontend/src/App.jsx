@@ -10,6 +10,7 @@ import Account from "./pages/account/Account.jsx";
 import About from "./pages/about/About.jsx";
 import { UserData } from "./context/UserContext.jsx";
 import Loading from "./components/loading/Loading.jsx";
+import Courses from "./pages/courses/Courses.jsx";
 
 const App = () => {
   const { Auth, user, loading } = UserData();
@@ -25,6 +26,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/courses" element={<Courses />} />
             <Route
               path="/account"
               element={Auth ? <Account user={user} /> : <Login />}

@@ -14,7 +14,7 @@ const Header = ({ Auth }) => {
   // Array containing navigation items
   const navItems = [
     { id: 1, text: "Home", path: "/" },
-    { id: 2, text: "Company", path: "/company" },
+    { id: 2, text: "Courses", path: "/courses" },
     { id: 3, text: "About", path: "/about" },
     Auth
       ? { id: 4, text: "Account", path: "/account" }

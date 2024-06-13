@@ -11,13 +11,13 @@
 # }
 
 # 87422
-POST http://localhost:5000/api/user/verify
-Content-Type: application/json
+# POST http://localhost:5000/api/user/verify
+# Content-Type: application/json
 
-{
-    "otp":"88463",
-    "activationToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQXl1c2giLCJlbWFpbCI6ImZhcGlnb2sxNzdAY251cmJhbm8uY29tIiwib3RwIjoiODg0NjMiLCJpYXQiOjE3MTgyNjc5NTAsImV4cCI6MTcxODM1NDM1MH0.rm3Dib_q6KU2MfP-E8laIv7juEwjxvcByhqc9Hl2O_w"
-}
+# {
+#     "otp":"88463",
+#     "activationToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQXl1c2giLCJlbWFpbCI6ImZhcGlnb2sxNzdAY251cmJhbm8uY29tIiwib3RwIjoiODg0NjMiLCJpYXQiOjE3MTgyNjc5NTAsImV4cCI6MTcxODM1NDM1MH0.rm3Dib_q6KU2MfP-E8laIv7juEwjxvcByhqc9Hl2O_w"
+# }
 
 # POST http://localhost:5000/api/user/resendOtp
 # Content-Type: application/json

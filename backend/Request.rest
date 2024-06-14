@@ -5,18 +5,18 @@
 # Content-Type: application/json
 
 # {
-#     "name":"Ramesh",
-#     "email":"fapigok177@cnurbano.com",
+#     "name":"Ramesh123",
+#     "email":"forera2858@eqvox.com",
 #     "password":"ramesh@123"
 # }
 
-# 87422
+# 50186
 # POST http://localhost:5000/api/user/verify
 # Content-Type: application/json
 
 # {
-#     "otp":"88463",
-#     "activationToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQXl1c2giLCJlbWFpbCI6ImZhcGlnb2sxNzdAY251cmJhbm8uY29tIiwib3RwIjoiODg0NjMiLCJpYXQiOjE3MTgyNjc5NTAsImV4cCI6MTcxODM1NDM1MH0.rm3Dib_q6KU2MfP-E8laIv7juEwjxvcByhqc9Hl2O_w"
+#     "otp":"50186",
+#     "activationToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUmFtZXNoMTIzIiwiZW1haWwiOiJmb3JlcmEyODU4QGVxdm94LmNvbSIsIm90cCI6IjUwMTg2IiwiaWF0IjoxNzE4MzM0MDM2LCJleHAiOjE3MTg0MjA0MzZ9.jrqnE7tugC1l1flwRhkCMV9RgOYKOYGDGqAg8B7i40Q"
 # }
 
 # POST http://localhost:5000/api/user/resendOtp

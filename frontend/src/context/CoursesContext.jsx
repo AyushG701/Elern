@@ -9,11 +9,22 @@ export const CourseContextProvider = ({ children }) => {
   const [course, setCourse] = useState([]);
   const [mycourse, setMyCourse] = useState([]);
 
+  // fetch all courses
   async function fetchCourses() {
     try {
       const { data } = await axios.get(`${server}/api/course/all`);
 
       setCourses(data.courses);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // detail of single course
+  async function fetchCourse(id) {
+    try {
+      const { data } = await axios.get(`${server}/api/course/${id}`);
+      setCourse(data.course);
     } catch (error) {
       console.log(error);
     }
@@ -28,6 +39,8 @@ export const CourseContextProvider = ({ children }) => {
       value={{
         courses,
         fetchCourses,
+        fetchCourse,
+        course,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { server } from "../../main";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
-  const { user, isAuth } = UserData();
+  const { user, Auth } = UserData();
 
   const { fetchCourses } = CourseData();
   const deleteHandler = () => {
@@ -40,9 +40,10 @@ const CourseCard = ({ course }) => {
               {course.title}
             </a>
             <p className="text-gray-700 text-sm">{course.category}</p>
+            🤞{" "}
             <p className="text-gray-700 text-sm">Duration: {course.duration}</p>
             <p className="text-gray-700 text-sm">Price: ${course.price}</p>
-            {isAuth ? (
+            {Auth ? (
               <>
                 {user && user.role !== "admin" ? (
                   <>
@@ -58,13 +59,13 @@ const CourseCard = ({ course }) => {
                         onClick={() => navigate(`/course/${course._id}`)}
                         className=" "
                       >
-                        Get Started
+                        Get Started now
                       </button>
                     )}
                   </>
                 ) : (
                   <button
-                    onClick={() => navigate(`/course/study/${course._id}`)}
+                    onClick={() => navigate(`/course/${course._id}`)}
                     className="common-btn"
                   >
                     Study
@@ -76,9 +77,7 @@ const CourseCard = ({ course }) => {
                 Get Started
               </button>
             )}
-
             <br />
-
             {user && user.role === "admin" && (
               <button
                 onClick={() => deleteHandler(course._id)}

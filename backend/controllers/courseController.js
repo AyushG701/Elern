@@ -19,7 +19,7 @@ export const getAllCourse = TryCatch(async (req, res) => {
 });
 
 export const getSingleCourse = TryCatch(async (req, res) => {
-  const courseId = parseInt(req.params.id); // Extracting course ID from request params
+  const courseId = req.params.id; // Extracting course ID from request params
   try {
     const course = await Courses.findById(courseId); // Finding course by ID
     if (!course) {
@@ -185,6 +185,7 @@ export const getMyCourses = TryCatch(async (req, res) => {
 // });
 
 // using razorpay for payment
+
 export const checkout = TryCatch(async (req, res) => {
   const user = await User.findById(req.user._id);
 

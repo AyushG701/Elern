@@ -30,8 +30,23 @@ export const CourseContextProvider = ({ children }) => {
     }
   }
 
+  // fetch my course
+  async function fetchMyCourse() {
+    try {
+      const { data } = await axios.get(`${server}/api/mycourse`, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      });
+      setMyCourse(data.courses);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     fetchCourses();
+    fetchMyCourse();
   }, []);
 
   return (
@@ -40,6 +55,8 @@ export const CourseContextProvider = ({ children }) => {
         courses,
         fetchCourses,
         fetchCourse,
+        fetchMyCourse,
+        mycourse,
         course,
       }}
     >

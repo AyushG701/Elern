@@ -13,6 +13,8 @@ import Loading from "./components/loading/Loading.jsx";
 import Courses from "./pages/courses/Courses.jsx";
 import CourseDescription from "./pages/coursedescription/CourseDescription.jsx";
 import PaymentSuccess from "./pages/paymentsuccess/PaymentSuccess.jsx";
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import CourseStudy from "./pages/coursestudy/CourseStudy.jsx";
 
 const App = () => {
   const { Auth, user, loading } = UserData();
@@ -50,6 +52,14 @@ const App = () => {
             <Route
               path="/payment-success/:id"
               element={Auth ? <PaymentSuccess user={user} /> : <Login />}
+            />
+            <Route
+              path="/:id/dashboard"
+              element={Auth ? <Dashboard user={user} /> : <Login />}
+            />
+            <Route
+              path="/course/study/:id"
+              element={Auth ? <CourseStudy user={user} /> : <Login />}
             />
           </Routes>
           <Footer />

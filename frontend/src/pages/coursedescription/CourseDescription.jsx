@@ -14,7 +14,7 @@ function CourseDescription({ user }) {
   const params = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { fetchCourse, fetchCourses, course } = CourseData();
+  const { fetchCourse, fetchCourses, course, fetchMyCourse } = CourseData();
   const { fetchUser } = UserData();
   useEffect(() => {
     fetchCourse(params.id);
@@ -68,7 +68,7 @@ function CourseDescription({ user }) {
 
           await fetchUser();
           await fetchCourses();
-          // await fetchMyCourse();
+          await fetchMyCourse();
           toast.success(data.message);
           setLoading(false);
           navigate(`/payment-success/${razorpay_payment_id}`);

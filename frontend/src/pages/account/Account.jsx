@@ -40,7 +40,12 @@ function Account({ user }) {
                 </div>
               </div>
               <div className="flex gap-2 px-2">
-                <button className="flex-1 rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2">
+                <button
+                  onClick={() => {
+                    navigate(`/${user._id}/dashboard`);
+                  }}
+                  className="flex-1 rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2"
+                >
                   Dashboard
                 </button>
                 <button

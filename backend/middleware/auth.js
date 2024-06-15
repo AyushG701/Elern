@@ -3,14 +3,27 @@ import { User } from "../models/userModel.js";
 
 export const Auth = async (req, res, next) => {
   try {
-    // const token = req.headers.token || req.query.token || req.body.token;
+    // First, try to get the token from the 'Authorization' header
+    let token = null;
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(403).json({ message: "Please log in to your account" });
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1]; // Extract the token from "Bearer <token>"
+    }
+    // If no token in 'Authorization' header, try 'token' header
+    if (!token) {
+      token = req.headers.token;
     }
 
-    const token = authHeader.split(" ")[1]; // Extract the token from "Bearer <token>"
+    // If no token in headers, try query parameters
+    if (!token) {
+      token = req.query.token;
+    }
 
+    // If no token in query, try body parameters
+    if (!token) {
+      token = req.body.token;
+    }
+    // If no token is found in any of the sources
     if (!token) {
       res.status(403).json({
         message: "Please Login to your account",

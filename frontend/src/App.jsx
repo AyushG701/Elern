@@ -12,6 +12,7 @@ import { UserData } from "./context/UserContext.jsx";
 import Loading from "./components/loading/Loading.jsx";
 import Courses from "./pages/courses/Courses.jsx";
 import CourseDescription from "./pages/coursedescription/CourseDescription.jsx";
+import PaymentSuccess from "./pages/paymentsuccess/PaymentSuccess.jsx";
 
 const App = () => {
   const { Auth, user, loading } = UserData();
@@ -45,6 +46,10 @@ const App = () => {
                   <Login />
                 )
               }
+            />
+            <Route
+              path="/payment-success/:id"
+              element={Auth ? <PaymentSuccess user={user} /> : <Login />}
             />
           </Routes>
           <Footer />

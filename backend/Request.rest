@@ -60,10 +60,10 @@
 
 
 
-# POST http://localhost:5000/course/checkout/6666b453897c7fab5c893e07
-# Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjYzZGM4M2M4NTkxNmNjZTBmZGFmMGYiLCJpYXQiOjE3MTc5MjQ5MjIsImV4cCI6MTcxODA5NzcyMn0.zIkC0I-PbMWrANH8ol-ThrMS2rRkA0FcOgCpUevE3Pw
+POST http://localhost:5000/api/course/checkout/666ad6e694c6b8568d3717a0
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjZkNDYxN2FmOWM2ZDEzZmFhOTU2MWMiLCJpYXQiOjE3MTg0Mzc0MjYsImV4cCI6MTcxODYxMDIyNn0.tEM9uVy9bgNYsKRnneGXj3A6sS2BdrZ45F53opojzp8
 
-# {
-#   "user_id": "6663dc83c85916cce0fdaf0f"  // Replace with an actual user ID
-# }
+{
+       
+}

@@ -2,7 +2,7 @@ import TryCatch from "../middleware/TryCatch.js";
 import { Courses } from "../models/coursesModel.js";
 import { Lecture } from "../models/lectureModel.js";
 import { User } from "../models/userModel.js";
-
+import { instance } from "../index.js";
 // for payment
 import crypto from "crypto";
 // import { EsewaPayment } from "../models/paymentModel.js";

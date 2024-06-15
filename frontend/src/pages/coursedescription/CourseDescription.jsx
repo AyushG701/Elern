@@ -1,109 +1,91 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CourseData } from "../../context/CoursesContext";
 import Loading from "../../components/loading/Loading";
 import { server } from "../../main";
 
-// const CourseDescription = ({ user, loading }) => {
-//   const params = useParams();
-//   const navigate = useNavigate();
-
-//   const { fetchCourse, course } = CourseData();
-
-//   console.log(params.id);
-//   console.log(course);
-//   console.log(user);
-
-//   useEffect(() => {
-//     fetchCourse(params.id);
-//   }, []);
-//   const checkoutHandler = () => {
-//     console.log("checkout");
-//   };
-//   //   console.log(fetchCourse(params.id));
-
-//   return (
-//
-//       <>
-//         {loading ? (
-//           <Loading />
-//         ) : (
-//           <>
-//             {course && (
-//               <div className="course-description bg-white shadow-md rounded-lg p-8 text-center min-h-screen">
-//                 <div className="course-header flex flex-wrap items-center justify-center mb-8">
-//                   <img
-//                     src={`${server}/${course.image}`}
-//                     alt=""
-//                     className="course-image w-64 h-48 object-cover rounded-lg"
-//                   />
-//                   <div className="course-info text-left ml-4">
-//                     <h2 className="text-3xl font-semibold text-gray-800">
-//                       {course.title}
-//                     </h2>
-//                     <p className="text-gray-600">
-//                       Instructor: {course.createdBy}
-//                     </p>
-//                     <p className="text-gray-600">
-//                       Duration: {course.duration} weeks
-//                     </p>
-//                   </div>
-//                 </div>
-
-//                 <p className="text-lg text-gray-700 mb-8">
-//                   {course.description}
-//                 </p>
-
-//                 <p className="text-lg text-gray-700 mb-8">
-//                   Let&apos;s get started with the course at ₹{course.price}
-//                 </p>
-//                 {user.subscription
-//                   ? console.log("User has the subscription field.")
-//                   : console.log("User does not have the subscription field.")}
-
-//                 {user && user.subscription.includes(course._id) ? (
-//                   <button
-//                     onClick={() => navigate(`/course/study/${course._id}`)}
-//                     className="bg-black text-white py-2 px-4 rounded-md shadow-md hover:bg-gray-900 transition duration-300 ease-in-out"
-//                   >
-//                     Study
-//                   </button>
-//                 ) : (
-//                   <button
-//                     onClick={checkoutHandler}
-//                     className="bg-black text-white py-2 px-4 rounded-md shadow-md hover:bg-gray-900 transition duration-300 ease-in-out"
-//                   >
-//                     Buy Now
-//                   </button>
-//                 )}
-//               </div>
-//             )}
-//           </>
-//         )}
-//       </>
-//
-//   );
-// };
-
 import { FaHeart, FaShoppingCart, FaShare } from "react-icons/fa";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { UserData } from "../../context/UserContext";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-function CourseDescription({ user, loading }) {
+function CourseDescription({ user }) {
   const params = useParams();
   const navigate = useNavigate();
-
-  const { fetchCourse, course } = CourseData();
-
-  console.log(params.id);
-  console.log(course);
-  console.log(user);
-
+  const [loading, setLoading] = useState(false);
+  const { fetchCourse, fetchCourses, course } = CourseData();
+  const { fetchUser } = UserData();
   useEffect(() => {
     fetchCourse(params.id);
   }, []);
-  const checkoutHandler = () => {
-    console.log("checkout");
+  // console.log(params.id);
+  // console.log(course);
+  // console.log(user);
+
+  const checkoutHandler = async () => {
+    const token = localStorage.getItem("token");
+    setLoading(true);
+
+    const {
+      data: { order },
+    } = await axios.post(
+      `${server}/api/course/checkout/${params.id}`,
+      {},
+      {
+        headers: {
+          token,
+        },
+      },
+    );
+
+    const options = {
+      key: "rzp_test_HlwQdRNHUPitjP", // Enter the Key ID generated from the Dashboard
+      amount: order.id, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "E learning", //your business name
+      description: "Learn with us",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+
+      handler: async function (response) {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+          response;
+
+        try {
+          const { data } = await axios.post(
+            `${server}/api/verification/${params.id}`,
+            {
+              razorpay_order_id,
+              razorpay_payment_id,
+              razorpay_signature,
+            },
+            {
+              headers: {
+                token,
+              },
+            },
+          );
+
+          await fetchUser();
+          await fetchCourses();
+          // await fetchMyCourse();
+          toast.success(data.message);
+          setLoading(false);
+          navigate(`/payment-success/${razorpay_payment_id}`);
+        } catch (error) {
+          toast.error(error.response.data.message);
+          setLoading(false);
+        }
+      },
+      theme: {
+        color: "#8a4baf",
+      },
+    };
+    const razorpay = new window.Razorpay(options);
+
+    razorpay.open();
   };
+
   //   console.log(fetchCourse(params.id));
   return (
     <>

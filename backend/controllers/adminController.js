@@ -35,7 +35,7 @@ export const addLectures = TryCatch(async (req, res) => {
   }
 
   const { title, description } = req.body;
-
+  const file = req.file;
   const lecture = await Lecture.create({
     title,
     description,

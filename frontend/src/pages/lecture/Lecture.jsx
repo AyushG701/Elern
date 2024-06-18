@@ -22,6 +22,7 @@ const Lecture = ({ user }) => {
   useEffect(() => {
     fetchLectures();
   }, []);
+
   if (user && user.role !== "admin" && !user.subscription.includes(params.id))
     return navigate("/");
 
@@ -55,6 +56,7 @@ const Lecture = ({ user }) => {
       setLecLoading(false);
     }
   }
+
   const changeVideoHandler = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -218,26 +220,29 @@ const Lecture = ({ user }) => {
               )}
 
               {lectures && lectures.length > 0 ? (
-                lectures.map((e, i) => (
-                  <div key={e._id} className="flex flex-col">
-                    <div
-                      onClick={() => fetchLecture(e._id)}
-                      className={`p-2 border border-black rounded-md mt-2 text-center cursor-pointer hover:bg-purple-700 hover:text-white ${
-                        lecture._id === e._id && "bg-purple-700 text-white"
-                      }`}
-                    >
-                      {i + 1}. {e.title}
-                    </div>
-                    {user && user.role === "admin" && (
-                      <button
-                        className="bg-red-600 text-white py-2 px-4 rounded-md mt-2"
-                        onClick={() => deleteHandler(e._id)}
+                lectures.map((e, i) => {
+                  console.log(e);
+                  return (
+                    <div key={e._id} className="flex flex-col">
+                      <div
+                        onClick={() => fetchLecture(e._id)}
+                        className={`p-2 border border-black rounded-md mt-2 text-center cursor-pointer hover:bg-purple-700 hover:text-white ${
+                          lecture._id === e._id && "bg-purple-700 text-white"
+                        }`}
                       >
-                        Delete {e.title}
-                      </button>
-                    )}
-                  </div>
-                ))
+                        {i + 1}. {e.title}
+                      </div>
+                      {user && user.role === "admin" && (
+                        <button
+                          className="bg-red-600 text-white py-2 px-4 rounded-md mt-2"
+                          onClick={() => deleteHandler(e._id)}
+                        >
+                          Delete {e.title}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })
               ) : (
                 <p>No Lectures Yet!</p>
               )}

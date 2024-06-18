@@ -69,9 +69,9 @@
 # }
 
 
-POST http://localhost:5000/api/lectures/666ad6e694c6b8568d3717a0
+GET http://localhost:5000/api/lecture/667188bc0728cd133f7972b7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjZkNDYxN2FmOWM2ZDEzZmFhOTU2MWMiLCJpYXQiOjE3MTg0Mzc0MjYsImV4cCI6MTcxODYxMDIyNn0.tEM9uVy9bgNYsKRnneGXj3A6sS2BdrZ45F53opojzp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjZiYjI4NWU2NTY5OGIxYjc2MjRiN2EiLCJpYXQiOjE3MTg3MTMzMjEsImV4cCI6MTcxODg4NjEyMX0.u9w0KvS4FfG6uQabbRG0hio25Q42wJX_6a_Z8Ulfsuc
 
 {
        

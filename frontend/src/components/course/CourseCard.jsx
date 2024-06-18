@@ -122,15 +122,30 @@ import { UserData } from "../../context/UserContext";
 import { CourseData } from "../../context/CoursesContext";
 import { server } from "../../main";
 import { FaClock, FaDollarSign, FaUser } from "react-icons/fa"; // Importing react-icons
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
   const { user, Auth } = UserData();
   const { fetchCourses } = CourseData();
 
-  const deleteHandler = () => {
+  const deleteHandler = async () => {
     console.log("Delete course:", course._id); // Implement deletion logic
     // You might call fetchCourses() here to update courses after deletion
+    if (confirm("Are you sure you want to delete this course")) {
+      try {
+        const { data } = await axios.delete(`${server}/api/course/${id}`, {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        });
+        toast.success(data.message);
+        fetchCourses();
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
   };
 
   return (
@@ -178,7 +193,7 @@ const CourseCard = ({ course }) => {
               )
             ) : (
               <button
-                onClick={() => navigate(`/course/${course._id}`)}
+                onClick={() => navigate(`/course/study/${course._id}`)}
                 className="btn-primary px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"
               >
                 Study

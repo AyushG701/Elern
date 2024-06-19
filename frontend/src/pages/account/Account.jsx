@@ -48,6 +48,16 @@ function Account({ user }) {
                 >
                   Dashboard
                 </button>
+                {user.role === "admin" && (
+                  <button
+                    onClick={() => {
+                      navigate(`/admin/dashboard`);
+                    }}
+                    className="flex-1 rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2"
+                  >
+                    Admin Dashboard
+                  </button>
+                )}
                 <button
                   onClick={logoutHandler}
                   className=" flex  px-8 justify-center items-center rounded-full border-2 border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2"

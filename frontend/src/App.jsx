@@ -18,6 +18,7 @@ import CourseStudy from "./pages/coursestudy/CourseStudy.jsx";
 import Lecture from "./pages/lecture/Lecture.jsx";
 import AdminDashboard from "./admin/Dashboard/AdminDashboard.jsx";
 import AdminCourses from "./admin/Courses/AdminCourses.jsx";
+import AdminUsers from "./admin/Users/AdminUsers.jsx";
 
 const App = () => {
   const { Auth, user, loading } = UserData();
@@ -75,6 +76,10 @@ const App = () => {
             <Route
               path="/admin/course"
               element={Auth ? <AdminCourses user={user} /> : <Login />}
+            />
+            <Route
+              path="/admin/users"
+              element={Auth ? <AdminUsers user={user} /> : <Login />}
             />
           </Routes>
 

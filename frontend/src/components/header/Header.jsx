@@ -22,7 +22,7 @@ const Header = ({ Auth }) => {
   ];
 
   return (
-    <div className="bg-black flex justify-between items-center h-16  mx-auto px-6 text-white">
+    <div className="bg-black flex justify-between items-center h-16  mx-auto px-6 text-white fixed w-full top-0">
       {/* Logo */}
       <Link to={"/"}>
         <h1 className="w-full text-3xl font-bold text-[#00df9a]">Elern.</h1>

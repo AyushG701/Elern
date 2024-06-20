@@ -117,7 +117,7 @@
 // next design trial
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../../context/UserContext";
 import { CourseData } from "../../context/CoursesContext";
 import { server } from "../../main";
@@ -149,93 +149,69 @@ const CourseCard = ({ course }) => {
   };
 
   return (
-    <div className="course-card rounded-lg shadow-md overflow-hidden">
+    <div className="course-card rounded-lg shadow-md overflow-hidden bg-white dark:bg-gray-800 ">
       <img
         src={`${server}/${course.image}`}
         alt={course.title}
-        className="w-full h-40 object-cover rounded-t-lg"
+        className="w-full h-48 object-cover rounded-t-lg"
       />
-      <div className="p-6 bg-white shadow-md rounded-lg">
-        <div className="text-center mb-4">
-          <h3 className="text-2xl font-bold text-gray-800">{course.title}</h3>
+
+      <div className="flex flex-col px-6 py-4 space-y-4">
+        <div className="text-lg font-bold text-gray-800 dark:text-gray-100">
+          {course.title}
         </div>
 
-        <p className="text-center text-gray-600 text-sm mb-2">
+        <div className="text-sm text-gray-600 dark:text-gray-400">
           Category: {course.category}
-        </p>
-
-        <div className="flex justify-center items-center mb-2">
-          Duration:
-          <span className="text-gray-600 text-sm ml-3">{course.duration}</span>
         </div>
 
-        <div className="flex justify-center items-center mb-4">
-          <span className="text-gray-600 text-sm">Price: ${course.price}</span>
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          Duration: {course.duration}
         </div>
 
-        <div className="flex justify-center items-center mb-6">
-          {Auth ? (
-            user && user.role !== "admin" ? (
-              user.subscription.includes(course._id) ? (
-                <button
-                  onClick={() => navigate(`/course/study/${course._id}`)}
-                  className="btn-primary px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"
-                >
-                  Study
-                </button>
-              ) : (
-                <button
-                  onClick={() => navigate(`/course/${course._id}`)}
-                  className="btn-secondary px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-md"
-                >
-                  Get Started
-                </button>
-              )
-            ) : (
-              <button
-                onClick={() => navigate(`/course/study/${course._id}`)}
-                className="btn-primary px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"
-              >
-                Study
-              </button>
-            )
-          ) : (
-            <button
-              onClick={() => navigate("/login")}
-              className="btn-primary px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"
-            >
-              Get Started
-            </button>
-          )}
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          Price: ${course.price}
         </div>
+      </div>
 
+      <div className="flex justify-between items-center">
+        <button
+          className="btn px-4 py-2 text-center leading-5 font-semibold rounded-md bg-blue-500 hover:bg-blue-600 text-white disabled:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          disabled={!user || user.role === "admin"}
+          onClick={() => navigate(`${match.path}/study/${course._id}`)} // Use dynamic route matching if needed
+        >
+          {user &&
+          user.role !== "admin" &&
+          user.subscription.includes(course._id)
+            ? "Study"
+            : "Get Started"}
+        </button>
         {Auth && user && user.role === "admin" && (
-          <div className="text-center mb-4">
-            <button
-              onClick={deleteHandler}
-              className="inline-flex items-center px-3 py-1 text-xs font-bold leading-none bg-red-500 hover:bg-red-600 rounded-full text-white"
-            >
-              Delete
-            </button>
-          </div>
+          <button
+            className="inline-flex items-center px-3 py-1 text-xs font-bold leading-none bg-red-500 hover:bg-red-600 rounded-full text-white"
+            onClick={deleteHandler}
+          >
+            Delete
+          </button>
         )}
+      </div>
 
-        <div className="flex justify-center items-center">
-          <img
-            className="w-10 h-10 rounded-full mr-3"
-            src={!course.image ? <FaUser /> : course.image}
-            alt="Instructor"
-          />{" "}
-          {/* Replace with default or actual image */}
-          <div className="text-sm flex flex-col">
-            <a
-              href="#"
-              className="text-gray-800 font-semibold leading-none hover:text-indigo-600"
-            >
-              {course.createdBy}
-            </a>
-            <p className="text-gray-600 text-xs">{course.createdAt}</p>
-          </div>
+      <div className="flex items-center space-x-4">
+        <img
+          className="w-10 h-10 rounded-full object-fit cover"
+          src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec077a61d71d2b?d=mm&s=80"
+          alt="Instructor"
+        />
+        <div className="text-sm flex flex-col">
+          <Link
+            to={`/profile/${course.createdBy}`}
+            className="text-gray-800 dark:text-gray-100 font-semibold leading-none hover:text-indigo-600"
+          >
+            {course.createdBy}
+          </Link>
+          <p className="text-gray-600 text-xs dark:text-gray-400">
+            {course.createdAt}
+          </p>
         </div>
       </div>
     </div>

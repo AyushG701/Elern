@@ -6,6 +6,8 @@ import {
   deleteCourse,
   deleteLecture,
   getAllStats,
+  getAllUser,
+  updateRole,
 } from "../controllers/adminController.js";
 import { uploadFiles } from "../middleware/multer.js";
 
@@ -16,5 +18,6 @@ router.post("/course/:id", Auth, isAdmin, uploadFiles, addLectures);
 router.delete("/course/:id", Auth, isAdmin, deleteCourse);
 router.delete("/lecture/:id", Auth, isAdmin, deleteLecture);
 router.get("/stats", Auth, isAdmin, getAllStats);
-
+router.put("/user/:id", Auth, isAdmin, updateRole);
+router.get("/users", Auth, isAdmin, getAllUser);
 export default router;

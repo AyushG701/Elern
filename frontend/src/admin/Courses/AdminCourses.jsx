@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Utils/Layout";
 import { useNavigate } from "react-router-dom";
-import { CourseData } from "../../context/CourseContext";
-import CourseCard from "../../components/coursecard/CourseCard";
+import { CourseData } from "../../context/CoursesContext.jsx";
+import CourseCard from "../../components/course/CourseCard.jsx";
 import axios from "axios";
 import { server } from "../../main";
 import toast from "react-hot-toast";
@@ -28,14 +28,34 @@ const AdminCourses = ({ user }) => {
   const [imagePreview, setImagePreview] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
 
+  const [file, setFile] = useState(null);
   if (user && user.role !== "admin") return navigate("/");
-
   const changeImageHandler = (e) => {
     const file = e.target.files[0];
-    setImage(file);
-    setImagePreview(URL.createObjectURL(file));
+
+    // Handle file validation
+    if (!file || !file.type.match(/^(video|image)\/.*/)) {
+      console.error("Invalid file type. Please select a video or image.");
+      return; // Early exit if not a video or image
+    }
+
+    setFile(file);
+
+    // Handle video or image preview based on file type
+    if (file.type.startsWith("image/")) {
+      const previewURL = URL.createObjectURL(file);
+      setImagePreview(previewURL);
+    } else {
+      // Video preview handling (optional)
+      // You can explore video preview libraries or create a custom solution
+      console.log("Video selected. Implement video preview logic here.");
+    }
   };
 
+  // Clean up the temporary URL when the component unmounts
+  // useEffect(() => {
+  //   return () => URL.revokeObjectURL(imagePreview);
+  // }, [imagePreview]);
   const { courses, fetchCourses } = CourseData();
 
   const submitHandler = async (e) => {
@@ -81,7 +101,7 @@ const AdminCourses = ({ user }) => {
           {/* Course List */}
           <div className="bg-white rounded shadow-md p-4">
             <h3 className="text-xl font-medium mb-4">All Courses</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
               {courses && courses.length > 0 ? (
                 courses.map((course) => (
                   <CourseCard key={course._id} course={course} />
